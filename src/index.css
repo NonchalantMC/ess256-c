@@ -1,9 +1,6 @@
 @import url('https://fonts.cdnfonts.com/css/circular-std');
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap');
 
-@font-face { font-family:'Circular'; src:url('/fonts/CircularStd-Book.woff2') format('woff2'); font-weight:400; font-display:swap; }
-@font-face { font-family:'Circular'; src:url('/fonts/CircularStd-Medium.woff2') format('woff2'); font-weight:500; font-display:swap; }
-@font-face { font-family:'Circular'; src:url('/fonts/CircularStd-Bold.woff2') format('woff2'); font-weight:700; font-display:swap; }
 
 @tailwind base;
 @tailwind components;
