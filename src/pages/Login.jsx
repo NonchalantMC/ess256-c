@@ -91,29 +91,6 @@ export function Login() {
           </button>
         </form>
 
-        <div className="relative my-5">
-          <div className="absolute inset-0 flex items-center"><div className="w-full border-t" style={{borderColor:'var(--border)'}}/></div>
-          <div className="relative flex justify-center"><span className="bg-white px-3 text-xs" style={{color:'var(--ink-soft)'}}>Demo accounts</span></div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-2 mb-5">
-          <button onClick={()=>loginAs('jane@example.com','Customer@123',from)} disabled={loading}
-                  className="py-3 px-3 text-left rounded-xl border text-xs transition-all disabled:opacity-50"
-                  style={{borderColor:'var(--border)'}}
-                  onMouseEnter={e=>{e.currentTarget.style.borderColor='var(--teal)';e.currentTarget.style.background='var(--teal-pale)'}}
-                  onMouseLeave={e=>{e.currentTarget.style.borderColor='var(--border)';e.currentTarget.style.background=''}}>
-            <div className="font-semibold mb-0.5" style={{color:'var(--ink)'}}>👤 Customer</div>
-            <div style={{color:'var(--ink-soft)'}}>jane@example.com</div>
-          </button>
-          <button onClick={()=>loginAs('admin@essentials256.com','Admin@123','/admin')} disabled={loading}
-                  className="py-3 px-3 text-left rounded-xl border text-xs transition-all disabled:opacity-50"
-                  style={{borderColor:'var(--border)'}}
-                  onMouseEnter={e=>{e.currentTarget.style.borderColor='var(--teal)';e.currentTarget.style.background='var(--teal-pale)'}}
-                  onMouseLeave={e=>{e.currentTarget.style.borderColor='var(--border)';e.currentTarget.style.background=''}}>
-            <div className="font-semibold mb-0.5" style={{color:'var(--ink)'}}>⚙️ Admin</div>
-            <div style={{color:'var(--ink-soft)'}}>admin@essentials256.com</div>
-          </button>
-        </div>
 
         <p className="text-center text-sm" style={{color:'var(--ink-soft)'}}>
           Don't have an account?{' '}
