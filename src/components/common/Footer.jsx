@@ -67,7 +67,7 @@ export default function Footer() {
             </Link>
             <div className="text-[9px] tracking-[2.5px] uppercase mb-4"
                  style={{color:'var(--teal-mid)'}}>
-              Rwanda · Uganda
+              Uganda
             </div>
             <p className="text-[13px] leading-relaxed mb-4" style={{color:'rgba(255,255,255,.45)'}}>
               Premium ladies footwear and interior decor for the modern African woman.

@@ -49,7 +49,7 @@ export default function Navbar() {
             </div>
             <div className="text-[9px] tracking-[2.5px] uppercase font-medium mt-0.5"
                  style={{color:'var(--teal)'}}>
-              Rwanda · Uganda
+              Uganda
             </div>
           </Link>
 

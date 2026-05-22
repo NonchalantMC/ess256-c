@@ -172,7 +172,7 @@ export default function Home() {
       <section className="bg-white border-y py-7 px-7" style={{borderColor:'var(--border)'}}>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
           {[
-            {icon:'🚚', title:'Nationwide Delivery', sub:'Uganda & Rwanda'},
+            {icon:'🚚', title:'Nationwide Delivery', sub:'Uganda'},
             {icon:'↩',  title:'14-Day Returns',      sub:'Hassle-free policy'},
             {icon:'🔒', title:'Secure Payments',     sub:'PesaPal PCI-DSS Level 1'},
             {icon:'💬', title:'WhatsApp Support',    sub:'Instant help, always on'},
