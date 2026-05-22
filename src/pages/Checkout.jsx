@@ -24,8 +24,7 @@ const inputCls = "w-full px-4 py-3 border border-[#ede9e2] rounded-xl text-sm ou
 const labelCls = "block text-[11px] font-bold uppercase tracking-wide text-[#999] mb-1.5";
 
 const PAYMENT_METHODS = [
-  { id:'mtn',    icon:'📱', name:'MTN Mobile Money', sub:'Pay from your MTN wallet' },
-  { id:'airtel', icon:'📲', name:'Airtel Money',      sub:'Pay via Airtel wallet'    },
+  { id:'mtn',    icon:'📱', name:'Mobile Money', sub:'Pay via Airtel or MTNwallet' },
   { id:'card',   icon:'💳', name:'Visa / Mastercard', sub:'Secure card payment'      },
   { id:'bank',   icon:'🏦', name:'Bank Transfer',     sub:'Direct bank transfer'     },
 ];
