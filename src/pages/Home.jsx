@@ -6,23 +6,10 @@ import { api } from '../stores';
 import ProductCard from '../components/products/ProductCard';
 import { COLLECTION_IMAGES } from '../utils/images';
 
-const MOCK = [
-  {_id:'1',type:'footwear',name:'Classic Pump Heels',slug:'classic-pump-heels',category:'Heels',price:145000,compareAtPrice:195000,stock:15,rating:4.8,reviewCount:124,tags:['bestseller'],footwearDetails:{sizes:[36,37,38,39,40,41]},images:['https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600&q=85&fit=crop']},
-  {_id:'2',type:'footwear',name:'White Leather Sneakers',slug:'white-leather-sneakers',category:'Sneakers',price:128000,compareAtPrice:0,stock:22,rating:4.9,reviewCount:89,tags:['new'],footwearDetails:{sizes:[36,37,38,39,40,41,42]},images:['https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=600&q=85&fit=crop']},
-  {_id:'3',type:'footwear',name:'Suede Ankle Boots',slug:'suede-ankle-boots',category:'Boots',price:210000,compareAtPrice:260000,stock:8,rating:4.7,reviewCount:67,tags:['sale'],footwearDetails:{sizes:[36,37,38,39,40]},images:['https://images.unsplash.com/photo-1608256246200-53e635b5b65f?w=600&q=85&fit=crop']},
-  {_id:'4',type:'footwear',name:'Strappy Heeled Sandals',slug:'strappy-heeled-sandals',category:'Sandals',price:98000,compareAtPrice:0,stock:18,rating:4.6,reviewCount:45,tags:[],footwearDetails:{sizes:[36,37,38,39,40,41]},images:['https://images.unsplash.com/photo-1595341888016-a392ef81b7de?w=600&q=85&fit=crop']},
-  {_id:'5',type:'footwear',name:'Leather Ballet Flats',slug:'leather-ballet-flats',category:'Flats',price:85000,compareAtPrice:0,stock:25,rating:4.5,reviewCount:92,tags:[],footwearDetails:{sizes:[35,36,37,38,39,40,41,42]},images:['https://images.unsplash.com/photo-1560343090-f0409e92791a?w=600&q=85&fit=crop']},
-  {_id:'6',type:'decor',name:'Abstract Canvas Wall Art',slug:'abstract-canvas-wall-art',category:'Wall Art',price:120000,compareAtPrice:0,stock:10,rating:4.9,reviewCount:38,tags:['featured'],decorDetails:{},images:['https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=600&q=85&fit=crop']},
-  {_id:'7',type:'decor',name:'Ceramic Vase Set',slug:'ceramic-vase-set',category:'Vases',price:89000,compareAtPrice:115000,stock:12,rating:4.8,reviewCount:55,tags:['sale'],decorDetails:{},images:['https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?w=600&q=85&fit=crop']},
-  {_id:'8',type:'decor',name:'Boho Cushion Covers',slug:'boho-cushion-covers',category:'Cushions',price:65000,compareAtPrice:0,stock:30,rating:4.6,reviewCount:77,tags:['new'],decorDetails:{},images:['https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=85&fit=crop']},
-  {_id:'9',type:'decor',name:'Modern Arc Floor Lamp',slug:'modern-arc-floor-lamp',category:'Lighting',price:285000,compareAtPrice:0,stock:6,rating:4.7,reviewCount:29,tags:[],decorDetails:{},images:['https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=85&fit=crop']},
-  {_id:'10',type:'decor',name:'Macramé Plant Hanger',slug:'macrame-plant-hanger',category:'Planters',price:45000,compareAtPrice:0,stock:40,rating:4.5,reviewCount:63,tags:[],decorDetails:{},images:['https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=85&fit=crop']},
-];
-
 const CATS = [
   { id:'all',      label:'All',      icon:'🛍' },
   { id:'footwear', label:'Footwear', icon:'👟' },
-  { id:'decor',    label:'Decor',    icon:'🏺' },
+  { id:'decor',    label:'Decor',    icon:'🪴' },
 ];
 
 const COLLECTIONS = [
@@ -48,57 +35,27 @@ const DEFAULT_HERO = {
 };
 
 export default function Home() {
-  const [products, setProducts] = useState(MOCK);
+  const [products, setProducts] = useState([]);
+  const [loading,  setLoading]  = useState(true);
   const [tab,      setTab]      = useState('all');
   const [hero,     setHero]     = useState(DEFAULT_HERO);
-  const [email,    setEmail]    = useState('');
-  const [subMsg,   setSubMsg]   = useState('');
 
   useEffect(() => {
     api.get('/hero').then(({ data }) => setHero(data)).catch(() => {});
-    productService.list({ status:'active', limit:10 })
+    // Load ALL active products — limit 100 so new products always appear
+    productService.list({ status:'active', limit:100 })
       .then(({ data }) => { if (data.products?.length) setProducts(data.products); })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, []);
 
   const filtered = tab === 'all' ? products : products.filter(p => p.type === tab);
 
-  const handleSubscribe = (e) => {
-    e.preventDefault();
-    if (!email.includes('@')) return;
-    setSubMsg("✓ Subscribed! Your 10% off code is on its way.");
-    setEmail('');
-    setTimeout(() => setSubMsg(''), 5000);
-  };
-
   return (
     <div>
-      {/* Custom styles for thinner scrollbar on collections (mobile only) */}
-      <style>{`
-        @media (max-width: 767px) {
-          .collections-scroll {
-            scrollbar-width: thin; /* Firefox */
-            -ms-overflow-style: auto; /* IE/Edge */
-          }
-          .collections-scroll::-webkit-scrollbar {
-            height: 4px; /* Thin horizontal scrollbar */
-          }
-          .collections-scroll::-webkit-scrollbar-track {
-            background: #e2e8f0;
-            border-radius: 10px;
-          }
-          .collections-scroll::-webkit-scrollbar-thumb {
-            background: #94a3b8;
-            border-radius: 10px;
-          }
-          .collections-scroll::-webkit-scrollbar-thumb:hover {
-            background: #64748b;
-          }
-        }
-      `}</style>
-
       {/* ── HERO ── */}
-      <section className="grid grid-cols-1 md:grid-cols-2 overflow-hidden" style={{minHeight:220}}>
+            {/* ── HERO (hidden on mobile, visible on desktop) ── */}
+      <section className="hidden md:grid grid-cols-1 md:grid-cols-2 overflow-hidden" style={{minHeight:220}}>
         {/* Left panel */}
         <div className="relative flex flex-col justify-center px-10 py-9 overflow-hidden"
              style={{background:'linear-gradient(145deg,#151e2a 0%,#212836 45%,#1a4a38 75%,#1e805f 100%)'}}>
@@ -167,9 +124,10 @@ export default function Home() {
           ))}
         </div>
       </section>
-
+      
       {/* ── TRUST ── */}
-      <section className="bg-white border-y py-7 px-7" style={{borderColor:'var(--border)'}}>
+            {/* ── TRUST (hidden on mobile, visible on desktop) ── */}
+      <section className="hidden md:grid bg-white border-y py-7 px-7" style={{borderColor:'var(--border)', gridTemplateColumns:'repeat(1,1fr)'}}>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
           {[
             {icon:'🚚', title:'Nationwide Delivery', sub:'Uganda'},
@@ -191,27 +149,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── COLLECTIONS (scroll on mobile, grid on desktop) ── */}
-      <section className="px-7 pt-10 pb-4">
+      {/* ── COLLECTIONS — */}
+   <section className="px-7 pt-10 pb-4">
         <div className="flex items-baseline justify-between mb-5">
-          <h2 className="font-serif text-[28px] font-medium tracking-tight" style={{color:'var(--ink)'}}>
-            Featured Collections
-          </h2>
-          <Link to="/products" className="text-sm font-medium hover:underline" style={{color:'var(--teal)'}}>
-            View all →
-          </Link>
+          <h2 className="font-serif text-[28px] font-medium tracking-tight">Featured Collections</h2>
+          <Link to="/products" className="text-sm font-medium hover:underline" style={{color:'#2C5F2D'}}>View all →</Link>
         </div>
-
-        {/* Mobile: flex horizontal scroll with thin scrollbar; Desktop: grid */}
-        <div className="flex overflow-x-auto gap-3 pb-3 collections-scroll md:grid md:grid-cols-4 md:overflow-x-visible">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {COLLECTIONS.map((c, i) => (
-            <motion.div
-              key={c.key}
-              initial={{opacity:0, y:14}}
-              animate={{opacity:1, y:0}}
-              transition={{delay:i * 0.07}}
-              className="flex-shrink-0 w-56 md:w-auto"
-            >
+            <motion.div key={c.key} initial={{opacity:0,y:14}} animate={{opacity:1,y:0}} transition={{delay:i*.07}}>
               <Link to={c.href} className="collection-card block" style={{height:190}}>
                 <img src={COLLECTION_IMAGES[c.key]} alt={c.title} className="w-full h-full object-cover" />
                 <div className="collection-overlay">
@@ -224,21 +170,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── PRODUCTS (original grid, no scroll) ── */}
-      <section className="px-7 pb-14">
+      {/* ── PRODUCTS ── */}
+      <section className="px-5 md:px-7 pb-14">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 my-7">
           <div>
-            <h2 className="font-serif text-[28px] font-medium tracking-tight" style={{color:'var(--ink)'}}>
-              {tab === 'all' ? 'Featured Products' : tab === 'footwear' ? 'Ladies Footwear' : 'Interior Decor'}
+            <h2 className="font-serif text-[24px] md:text-[28px] font-medium tracking-tight" style={{color:'var(--ink)'}}>
+              {tab==='all'?'Featured Products':tab==='footwear'?'Ladies Footwear':'Interior Decor'}
             </h2>
-            <p className="text-sm mt-0.5" style={{color:'var(--ink-soft)'}}>{filtered.length} products</p>
+            <p className="text-sm mt-0.5" style={{color:'var(--ink-soft)'}}>
+              {loading ? 'Loading...' : `${filtered.length} product${filtered.length!==1?'s':''}`}
+            </p>
           </div>
           <div className="flex rounded-full p-1 gap-0.5" style={{background:'var(--border)'}}>
-            {CATS.map(cat => (
-              <button key={cat.id} onClick={() => setTab(cat.id)}
+            {CATS.map(cat=>(
+              <button key={cat.id} onClick={()=>setTab(cat.id)}
                   className="flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200"
-                  style={tab === cat.id
-                    ? {background:'var(--ink)', color:'#fff', boxShadow:'0 2px 8px rgba(33,40,54,.2)'}
+                  style={tab===cat.id
+                    ? {background:'var(--ink)',color:'#fff',boxShadow:'0 2px 8px rgba(33,40,54,.2)'}
                     : {color:'var(--ink-soft)'}}>
                 <span style={{fontSize:14}}>{cat.icon}</span>
                 <span className="hidden sm:inline">{cat.label}</span>
@@ -247,12 +195,51 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Original grid layout – no horizontal scroll */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          {filtered.map((p, i) => (
-            <ProductCard key={p._id || p.id} product={p} index={i} />
-          ))}
-        </div>
+        {/* Loading skeleton */}
+        {loading && (
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-4">
+            {Array.from({length:10}).map((_,i)=>(
+              <div key={i} className="bg-white rounded-2xl overflow-hidden border animate-pulse"
+                   style={{borderColor:'var(--border)'}}>
+                <div className="h-60" style={{background:'var(--teal-pale)'}} />
+                <div className="p-4 space-y-2">
+                  <div className="h-3 rounded w-1/2" style={{background:'var(--teal-pale)'}} />
+                  <div className="h-4 rounded w-3/4" style={{background:'var(--teal-pale)'}} />
+                  <div className="h-4 rounded w-1/3" style={{background:'var(--teal-pale)'}} />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Products grid — new rows added automatically as products are created */}
+        {!loading && filtered.length > 0 && (
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-4">
+            {filtered.map((p,i)=>(
+              <ProductCard key={p._id||p.id} product={p} index={i} />
+            ))}
+          </div>
+        )}
+
+        {/* Empty state */}
+        {!loading && filtered.length === 0 && (
+          <div className="text-center py-20">
+            <div className="text-5xl mb-4">
+              {tab==='footwear'?'👟':tab==='decor'?'🏺':'🛍'}
+            </div>
+            <h3 className="font-serif text-xl mb-2" style={{color:'var(--ink)'}}>
+              No {tab==='all'?'':tab} products yet
+            </h3>
+            <p className="text-sm mb-6" style={{color:'var(--ink-soft)'}}>
+              Products added in the admin panel will appear here automatically.
+            </p>
+            <Link to="/admin/products"
+                  className="inline-block rounded-full px-6 py-3 text-sm font-semibold text-white"
+                  style={{background:'var(--teal)'}}>
+              Add Products in Admin
+            </Link>
+          </div>
+        )}
       </section>
     </div>
   );
