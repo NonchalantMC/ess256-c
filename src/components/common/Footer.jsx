@@ -47,12 +47,11 @@ const FOOTER_LINKS = [
 ];
 
 const SOCIALS = [
-  {label:'X',  href:'https://twitter.com'},
-  {label:'in', href:'https://linkedin.com'},
-  {label:'IG', href:'https://instagram.com'},
-  {label:'WA', href:'https://wa.me/256700000000'},
+  { label: 'X', href: 'https://twitter.com', iconUrl: 'https://s.magecdn.com/social/tc-x.svg' },
+  { label: 'in', href: 'https://tiktok.com', iconUrl: 'https://s.magecdn.com/social/tc-tiktok.svg' },
+  { label: 'IG', href: 'https://instagram.com', iconUrl: 'https://s.magecdn.com/social/tc-instagram.svg' },
+  { label: 'WA', href: 'https://wa.me/256700000000', iconUrl: 'https://www.svgrepo.com/show/303150/whatsapp-symbol-logo.svg' },
 ];
-
 export default function Footer() {
   return (
     <footer style={{background:'var(--ink)',color:'rgba(255,255,255,.55)'}}
@@ -63,26 +62,35 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <Link to="/" className="block mb-0.5">
-              <div className="font-serif italic text-[20px] text-white">Essentials256</div>
+              <div className="font-semibold text-[20px]">
+                <span style={{ color: 'white' }}>essentials</span>
+                <span style={{ color: 'var(--teal)' }}>256</span>
+              </div>
             </Link>
-            <div className="text-[9px] tracking-[2.5px] uppercase mb-4"
-                 style={{color:'var(--teal-mid)'}}>
-              Uganda
-            </div>
+
             <p className="text-[13px] leading-relaxed mb-4" style={{color:'rgba(255,255,255,.45)'}}>
               Premium ladies footwear and interior decor for the modern African woman.
             </p>
-            <div className="flex gap-2">
-              {SOCIALS.map(s => (
-                <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
-                   className="w-7 h-7 rounded-full border border-white/15 flex items-center justify-center text-[10px] font-bold transition-colors"
-                   style={{color:'rgba(255,255,255,.55)'}}
-                   onMouseEnter={e => { e.currentTarget.style.borderColor='var(--teal)'; e.currentTarget.style.color='#86e8c4'; }}
-                   onMouseLeave={e => { e.currentTarget.style.borderColor='rgba(255,255,255,.15)'; e.currentTarget.style.color='rgba(255,255,255,.55)'; }}>
-                  {s.label}
-                </a>
-              ))}
-            </div>
+           <div className="flex gap-2">
+  {SOCIALS.map(s => (
+    <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
+       className="w-7 h-7 rounded-full border border-white/15 flex items-center justify-center transition-all duration-200"
+       style={{ 
+         borderColor: 'rgba(255,255,255,.15)',
+         background: 'transparent'
+       }}
+       onMouseEnter={e => { 
+         e.currentTarget.style.borderColor = 'var(--teal)';
+         e.currentTarget.style.background = 'var(--teal)';
+       }}
+       onMouseLeave={e => { 
+         e.currentTarget.style.borderColor = 'rgba(255,255,255,.15)';
+         e.currentTarget.style.background = 'transparent';
+       }}>
+      <img src={s.iconUrl} alt={s.label} className="w-3.5 h-3.5 object-contain" />
+    </a>
+  ))}
+</div>
           </div>
 
           {/* Link columns */}

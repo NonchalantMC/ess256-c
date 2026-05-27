@@ -111,7 +111,7 @@ export default function AdminHero() {
                style={{ background: 'rgba(184,151,58,.2)', border: '1px solid rgba(184,151,58,.3)' }}>
             <span className="text-[#f0d882] text-[10px] tracking-widest uppercase">{config.eyebrow}</span>
           </div>
-          <h3 className="font-serif text-white text-xl mb-1 leading-tight"
+          <h3 className="font-semibold text-white text-xl mb-1 leading-tight"
               dangerouslySetInnerHTML={{ __html: config.heading.replace(/\*(.+?)\*/g, '<em style="color:#f0d882">$1</em>') }} />
           <p className="text-white/60 text-xs mb-3">{config.subheading}</p>
           <div className="flex gap-2">
@@ -136,9 +136,6 @@ export default function AdminHero() {
 
         {/* ── Text content ── */}
         <Card title="Text Content">
-          <Field label="Eyebrow tag (small text above heading)">
-            <input value={config.eyebrow} onChange={e => set('eyebrow', e.target.value)} className={inputCls} placeholder="New Season Arrivals" />
-          </Field>
           <Field label="Main heading — wrap italic text in *asterisks* e.g. Where *Style* Meets Your Space">
             <input value={config.heading} onChange={e => set('heading', e.target.value)} className={inputCls} placeholder="Where *Style* Meets Your Space" />
             <p className="text-[11px] text-[#999] mt-1">
@@ -148,6 +145,16 @@ export default function AdminHero() {
           <Field label="Subheading">
             <input value={config.subheading} onChange={e => set('subheading', e.target.value)} className={inputCls} placeholder="Your Essentials for a Perfect Home & Lifestyle" />
           </Field>
+          <Field label="Left Panel Background Image URL (optional)">
+             <input value={config.bgImage || ''}
+               onChange={e => set('bgImage', e.target.value)}
+                  className={inputCls}
+               placeholder="https://images.unsplash.com/photo-...?w=800&q=85&fit=crop"
+           />
+                 <p className="text-[11px] text-[#999] mt-1">
+                 Leave empty to use the default dark gradient. Image will be overlaid with the gradient so text stays readable.
+                </p>
+</Field>
         </Card>
 
         {/* ── CTA Buttons ── */}

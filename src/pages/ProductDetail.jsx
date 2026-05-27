@@ -19,7 +19,6 @@ export default function ProductDetail() {
   const [loading, setLoading] = useState(true);
   const [activeImg,  setActiveImg]  = useState(0);
   const [selSize,    setSelSize]    = useState(null);
-  const [selColor,   setSelColor]   = useState(0);
   const [qty,        setQty]        = useState(1);
   const [activeTab,  setActiveTab]  = useState('details');
   const [adding,     setAdding]     = useState(false);
@@ -50,13 +49,9 @@ export default function ProductDetail() {
   const unsplashImgs = PRODUCT_IMAGES[product.slug] || [];
   const gallery = storedImgs.length ? storedImgs : unsplashImgs.length ? unsplashImgs : [getProductImage(product.slug)];
 
-  const TABS_FW = [{id:'details',l:'Details'},{id:'sizing',l:'Sizing Guide'},{id:'reviews',l:`Reviews (${product.reviewCount})`}];
-  const TABS_DC = [{id:'details',l:'Details'},{id:'specs',l:'Specs'},{id:'care',l:'Care'},{id:'reviews',l:`Reviews (${product.reviewCount})`}];
+  const TABS_FW = [{id:'details',l:'Details'},{id:'sizing',l:'Sizing Guide'}];
+  const TABS_DC = [{id:'details',l:'Details'},{id:'specs',l:'Specs'},{id:'care',l:'Care'}];
   const tabs = isFW ? TABS_FW : TABS_DC;
-
-  const PALETTE = isFW
-    ? ['#1a1a1a','#8B4513','#c8a96b','#ffffff']
-    : ['#e8d5b0','#a8b5c4','#1a1a1a'];
 
   const handleAdd = async () => {
     if (isFW && !selSize) { showError('Please select a size'); return; }
@@ -103,28 +98,14 @@ export default function ProductDetail() {
               </button>
             ))}
           </div>
-          {/* 360 / AR row */}
-          <div className="flex gap-2">
-            {[['🔄 360° View',''],['📱 View in Room','']].slice(0,isFW?1:2).map(([l])=>(
-              <button key={l} className="flex-1 py-2.5 rounded-xl border border-[#ede9e2] text-xs font-medium text-[#999] hover:border-[#2C5F2D] hover:text-[#2C5F2D] transition-colors">{l}</button>
-            ))}
-          </div>
         </div>
 
         {/* INFO */}
         <div>
           <div className="text-[11px] text-[#999] uppercase tracking-[1.2px] mb-2">{product.category}</div>
-          <h1 className="font-serif leading-tight mb-4 tracking-tight" style={{fontSize:'clamp(30px,3.5vw,42px)',fontWeight:500}}>
+          <h1 className="font-semibold leading-tight mb-4 tracking-tight" style={{fontSize:'clamp(30px,3.5vw,42px)',fontWeight:500}}>
             {product.name}
           </h1>
-
-          {product.reviewCount > 0 && (
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-[#c9a840]">{'★'.repeat(Math.floor(product.rating))}{'☆'.repeat(5-Math.floor(product.rating))}</span>
-              <span className="text-[14px] font-semibold">{product.rating}</span>
-              <span className="text-sm text-[#999]">({product.reviewCount} reviews)</span>
-            </div>
-          )}
 
           <div className="flex items-center gap-3 mb-6">
             <span className="font-bold text-[#2C5F2D]" style={{fontSize:30}}>{fmt(product.price)}</span>
@@ -134,25 +115,6 @@ export default function ProductDetail() {
             </>}
           </div>
 
-          {/* Colors */}
-          <div className="mb-5">
-            <div className="text-[11px] font-bold text-[#999] uppercase tracking-[.8px] mb-2">Colour</div>
-            <div className="flex gap-2.5">
-              {PALETTE.map((c,i) => (
-                <button key={i} onClick={()=>setSelColor(i)}
-                    className="w-7 h-7 rounded-full border-2 transition-all duration-150"
-                    style={{
-                      background:c,
-                      borderColor: selColor===i ? '#141414' : 'transparent',
-                      outline: selColor===i ? '2px solid #141414' : 'none',
-                      outlineOffset: selColor===i ? '2px' : '0',
-                      boxShadow: c==='#ffffff' ? 'inset 0 0 0 1px #ddd' : 'none',
-                    }} />
-              ))}
-            </div>
-          </div>
-
-          {/* Sizes (footwear) */}
           {isFW && details?.sizes?.length > 0 && (
             <div className="mb-5">
               <div className="flex items-center justify-between mb-2">
@@ -189,13 +151,15 @@ export default function ProductDetail() {
           <div className="flex items-center gap-3 mb-6">
             <div className="flex items-center border border-[#ede9e2] rounded-full overflow-hidden">
               <button onClick={()=>setQty(q=>Math.max(1,q-1))}
-                  className="w-10 h-11 flex items-center justify-center text-[18px] text-[#5a5a5a] hover:bg-[#faf7f2] transition-colors">−</button>
+                  className="w-10 h-11 flex items-center justify-center text-[18px] text-[#5a5a5a] hover:bg-[#1e805f] transition-colors">−</button>
               <span className="w-10 text-center text-sm font-semibold">{qty}</span>
               <button onClick={()=>setQty(q=>Math.min(product.stock,q+1))}
-                  className="w-10 h-11 flex items-center justify-center text-[18px] text-[#5a5a5a] hover:bg-[#faf7f2] transition-colors">+</button>
+                  className="w-10 h-11 flex items-center justify-center text-[18px] text-[#5a5a5a] hover:bg-[#1e805f] transition-colors">+</button>
             </div>
             <motion.button onClick={handleAdd} disabled={adding || product.stock===0} whileTap={{scale:.97}}
-                className="flex-1 btn-sage py-3.5 text-sm font-semibold disabled:opacity-50">
+                className="flex-1 btn-sage py-3.5 text-sm font-semibold disabled:opacity-50"
+                style={{ backgroundColor: '#1e805f', color: '#fff',border: 'none', borderRadius: '9999px' }}
+                >
               {adding
                 ? <span className="flex items-center justify-center gap-2"><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"/></span>
                 : product.stock===0 ? 'Out of Stock'
@@ -210,16 +174,24 @@ export default function ProductDetail() {
             </button>
           </div>
 
+
           {/* Trust row */}
-          <div className="grid grid-cols-4 gap-2 mb-6">
-            {[['🚚','Free delivery','over UGX 150k'],['↩','14-day','returns'],['🔒','PesaPal','secure'],['💬','WhatsApp','support']].map(([icon,t,s])=>(
-              <div key={t} className="rounded-xl p-3 text-center" style={{background:'#faf7f2'}}>
-                <div className="text-[17px] mb-1">{icon}</div>
-                <div className="text-[10px] font-semibold text-[#141414] leading-tight">{t}</div>
-                <div className="text-[9px] text-[#999] mt-0.5">{s}</div>
-              </div>
-            ))}
-          </div>
+<div className="grid grid-cols-4 gap-2 mb-6">
+  {[
+    { img: 'https://i.postimg.cc/tCtkDmVd/Mo-Mo-logo.png', title: '', subtitle: '' },
+    { img: 'https://i.postimg.cc/tnHFTGBL/Airtel-logo-01.png', title: '', subtitle: '' },
+    { img: 'https://i.postimg.cc/64NC3xMF/Visa-Inc-logo-(2021-present)-svg.png', title: '', subtitle: '' },
+    { img: 'https://i.postimg.cc/0Kq7Q1t1/Mastercard-logo-svg.png', title: '', subtitle: '' }
+  ].map((item, idx) => (
+    <div key={idx} className="rounded-xl p-3 text-center" style={{ background: '#faf7f2' }}>
+      <div className="flex justify-center mb-2">
+        <img src={item.img} alt={item.title} width="48" height="48" className="object-contain" />
+      </div>
+      <div className="text-[10px] font-semibold text-[#141414] leading-tight">{item.title}</div>
+      <div className="text-[9px] text-[#999] mt-0.5">{item.subtitle}</div>
+    </div>
+  ))}
+</div>
 
           {/* Tabs */}
           <div>

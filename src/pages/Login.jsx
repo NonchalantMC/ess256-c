@@ -48,7 +48,12 @@ export function Login() {
           className="bg-white rounded-2xl w-full max-w-md p-8"
           style={{boxShadow:'0 4px 24px rgba(33,40,54,.08)'}}>
         <div className="text-center mb-8">
-          <div className="font-serif italic text-[22px] mb-1" style={{color:'var(--ink)'}}>Essentials256</div>
+          <Link to="/" className="flex-shrink-0 ml-5">
+          <div className="font-semibold text-[22px] mb-1">
+            <span style={{color:'#808080'}}>essentials</span>
+            <span style={{color:'var(--teal)'}}>256</span>
+            </div>
+            </Link>
           <h1 className="text-xl font-semibold" style={{color:'var(--ink)'}}>Welcome back</h1>
           <p className="text-sm mt-1" style={{color:'var(--ink-soft)'}}>Sign in to your account</p>
         </div>
